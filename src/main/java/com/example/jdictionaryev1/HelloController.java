@@ -1,15 +1,11 @@
 package com.example.jdictionaryev1;
 
-import com.almasb.fxgl.audio.Audio;
 import dictionary.DictionaryManagement;
 import dictionary.Word;
-import dictionary.Dictionary;
-import dictionary.DictionaryManagement;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -19,34 +15,27 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.scene.shape.Circle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import module.GoogleTranslateAPI;
 import module.SQLite.SQLiteConnection;
-import module.TextToSpeech;
 import org.jetbrains.annotations.NotNull;
 import searchingAlgorithm.Trie;
 
 import javax.sound.sampled.LineUnavailableException;
-import javax.speech.AudioException;
-import javax.speech.EngineException;
+import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Handler;
 
 public class HelloController extends DictionaryManagement {
 
@@ -201,6 +190,15 @@ public class HelloController extends DictionaryManagement {
             }
         });
     }
+
+//    @FXML
+//    public void enterSearch(@NotNull KeyEvent event, ActionEvent actionEvent) throws IOException {
+//        if (event.getKeyChar() == KeyEvent.VK_ENTER) {
+//            search(actionEvent);
+//        }
+//    }
+
+
     @FXML
     public void deleteTextField(){
         textFieldSearch.clear();

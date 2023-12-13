@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="scenePane" prefHeight="540.0" prefWidth="840.0" style="-fx-background-radius: 32px; -fx-border-radius: 32px; -fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jdictionaryev1.HelloController">
+<AnchorPane fx:id="scenePane" prefHeight="540.0" prefWidth="840.0" style="-fx-background-radius: 32px; -fx-border-radius: 32px; -fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jdictionaryev1.HelloController">
    <children>
       <ImageView id="game" fitHeight="540.0" fitWidth="840.0" pickOnBounds="true" preserveRatio="true">
          <image>

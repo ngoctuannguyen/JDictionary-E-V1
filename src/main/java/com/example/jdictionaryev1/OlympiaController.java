@@ -37,6 +37,7 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 
 import java.io.*;
+import java.security.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -803,18 +804,16 @@ public class OlympiaController {
     @FXML
     public void startCountDownRound2() {
         int seconds = 16;
-        Countdown(seconds, countdownLabel2);
-
-        Thread countdownThread = new Thread(() -> {
-            try {
-                Thread.sleep(6000);
+        Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(6), new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Countdown(seconds,countdownLabel2);
                 playAudioClip(clipOb[1]);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        });
+        }));
+        timeline1.play();
+        System.out.println(1);
 
-        countdownThread.start();
     }
 
 
@@ -827,64 +826,95 @@ public class OlympiaController {
         changeColorRed(Line);//
     }
 
+    public static boolean line0;
+    public static boolean line1;
+    public static boolean line2;
+
+    public static boolean line3;
+
+    public static boolean line4;
+
+    public void lineConstruct() {
+        line0 = true;
+        line1 = true;
+        line2 = true;
+        line3 = true;
+        line4 = true;
+    }
+
     @FXML
     public synchronized void chooseLine0() throws InterruptedException {
         //xoa du lieu cau cu
-        hideImageCheck();
-        myAnswerLabel.setVisible(false);
-        myanswerIs.setVisible(false);
-        //------------
-        Line = 0;
-        changeColorYellow(0);
-        playAudioClip(clipOb[2]);
-        wait(2000);
-        playAudioClip(clipOb[3]);
-        loadQuestionRound2(Line);
-        countdownLabel2.setText("15");
-        startCountDownRound2();
+        if (line0) {
+            hideImageCheck();
+            myAnswerLabel.setVisible(false);
+            myanswerIs.setVisible(false);
+            //------------
+            Line = 0;
+            changeColorYellow(0);
+            playAudioClip(clipOb[2]);
+            wait(1000);
+            playAudioClip(clipOb[3]);
+            loadQuestionRound2(Line);
+            System.out.println(2);
+            line0 = false;
+            countdownLabel2.setText("15");
+            startCountDownRound2();
+        }
     }
-    public void chooseLine1(){
+    public synchronized void chooseLine1() throws InterruptedException {
         //xoa du lieu cau cu
-        hideImageCheck();
-        myAnswerLabel.setVisible(false);
-        myanswerIs.setVisible(false);
-        //------------
-        Line = 1;
-        changeColorYellow(1);
-        playAudioClip(clipOb[2]);
-        playAudioClip(clipOb[3]);
-        loadQuestionRound2(Line);
-        countdownLabel2.setText("15");
-        startCountDownRound2();//
+        if (line1) {
+            hideImageCheck();
+            myAnswerLabel.setVisible(false);
+            myanswerIs.setVisible(false);
+            //------------
+            Line = 1;
+            changeColorYellow(1);
+            playAudioClip(clipOb[2]);
+            wait(1000);
+            playAudioClip(clipOb[3]);
+            loadQuestionRound2(Line);
+            line1 = false;
+            countdownLabel2.setText("15");
+            startCountDownRound2();//
+        }
     }
-    public void chooseLine2(){
+    public synchronized void chooseLine2() throws InterruptedException {
         //xoa du lieu cau cu
-        hideImageCheck();
-        myAnswerLabel.setVisible(false);
-        myanswerIs.setVisible(false);
-        //------------
-        Line = 2;
-        changeColorYellow(2);
-        playAudioClip(clipOb[2]);
-        playAudioClip(clipOb[3]);
-        loadQuestionRound2(Line);
-        countdownLabel2.setText("15");
-        startCountDownRound2();//
-
+        if (line2) {
+            hideImageCheck();
+            myAnswerLabel.setVisible(false);
+            myanswerIs.setVisible(false);
+            //------------
+            Line = 2;
+            changeColorYellow(2);
+            playAudioClip(clipOb[2]);
+            wait(1000);
+            playAudioClip(clipOb[3]);
+            loadQuestionRound2(Line);
+            line2 = false;
+            countdownLabel2.setText("15");
+            startCountDownRound2();//
+        }
     }
-    public void chooseLine3(){
+    public synchronized void chooseLine3() throws InterruptedException {
         //xoa du lieu cau cu
-        hideImageCheck();
-        myAnswerLabel.setVisible(false);
-        myanswerIs.setVisible(false);
-        //------------
-        Line = 3;
-        changeColorYellow(3);
-        playAudioClip(clipOb[2]);
-        playAudioClip(clipOb[3]);
-        loadQuestionRound2(Line);
-        countdownLabel2.setText("15");//
-        startCountDownRound2();
+        if (line3) {
+            hideImageCheck();
+            myAnswerLabel.setVisible(false);
+            myanswerIs.setVisible(false);
+            //------------
+            Line = 3;
+            line3 = false;
+            changeColorYellow(3);
+            playAudioClip(clipOb[2]);
+            wait(1000);
+            playAudioClip(clipOb[3]);
+            loadQuestionRound2(Line);
+            countdownLabel2.setText("15");//
+            startCountDownRound2();
+        }
     }
 
 
@@ -935,7 +965,7 @@ public class OlympiaController {
                 openImageButton2.setDisable(false);
                 openImageButton3.setDisable(false);
                 openImageButton4.setDisable(false);
-                Image image = new Image("file:C:/Users/ADMIN/Documents/code/OOP/JDictionary-E-V1/src/main/resources/GameOlympia/QuestionRound2/QS1Round2.png");
+                Image image = new Image("file:src/main/resources/GameOlympia/QuestionRound2/QS1Round2.png");
                 mainImage.setImage(image);
                 try {
                     loadQuesAndAnsRound2();
@@ -944,6 +974,7 @@ public class OlympiaController {
                 }
                 loadCircleAndText();
                 startRound2();
+                lineConstruct();
                 start = true;
             }
         }));
@@ -1316,8 +1347,14 @@ public class OlympiaController {
         hideImageCheck();
         hideAnswer();
         showScore(Mark);
-        loadImageQuestion();
-        startCountDownRound3();
+        Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(6), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                loadImageQuestion();
+                startCountDownRound3();
+            }
+        }));
+        timeline1.play();
     }
 
     //----------------------------------Round 4--------------------------
