@@ -1,5 +1,6 @@
 package com.example.jdictionaryev1;
 
+
 import dictionary.DictionaryManagement;
 import dictionary.Word;
 import javafx.application.Platform;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -26,12 +26,8 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import module.GoogleTranslateAPI;
 import module.SQLite.SQLiteConnection;
-import org.jetbrains.annotations.NotNull;
 import searchingAlgorithm.Trie;
-
 import javax.sound.sampled.LineUnavailableException;
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -56,11 +52,6 @@ public class HelloController extends DictionaryManagement {
     public void switchToGame() throws IOException {
         HelloApplication helloApplication = new HelloApplication();
         helloApplication.changeScreen("Game.fxml",840,540);
-//        Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root, 840, 540);
-//        stage.setScene(scene);
-//        stage.show();
 
     }
     //-------------------------------Chuyển sang olympia game--------------------------
@@ -81,11 +72,6 @@ public class HelloController extends DictionaryManagement {
         public void switchToTranslate() throws IOException {
             HelloApplication helloApplication = new HelloApplication();
             helloApplication.changeScreen("translate.fxml",840,540);
-//        Parent root = FXMLLoader.load(getClass().getResource("Game.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root, 840, 540);
-//        stage.setScene(scene);
-//        stage.show();
 
         }
 
@@ -141,18 +127,12 @@ public class HelloController extends DictionaryManagement {
         dictionaryManagement.setTrie();
         Trie trie1 = dictionaryManagement.getTrie();
         try {
-            //textFieldSearch.textProperty().addListener((observableValue, oldvalue, newvalue) -> {//
             wordSearch = textFieldSearch.getText();
-//            System.out.println(wordSearch);
-            //});//
         } catch (Exception e) {
             System.out.println(e);  // xử lí ngoại lệ nhập văn bản
 
         }
 
-        /*Đã thêm xử lí ngoại lệ ký tự số,hiện lên alert thay vì dùng exception (Muốn dùng ngoại lệ
-        dùng throw new Exepction("Message")
-         */
         for (char c : textFieldSearch.getText().toCharArray()) {
             if (Character.isDigit(c)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -190,15 +170,6 @@ public class HelloController extends DictionaryManagement {
             }
         });
     }
-
-//    @FXML
-//    public void enterSearch(@NotNull KeyEvent event, ActionEvent actionEvent) throws IOException {
-//        if (event.getKeyChar() == KeyEvent.VK_ENTER) {
-//            search(actionEvent);
-//        }
-//    }
-
-
     @FXML
     public void deleteTextField(){
         textFieldSearch.clear();
@@ -222,7 +193,6 @@ public class HelloController extends DictionaryManagement {
         if (buttonsVisible) {
             buttonContainer.getChildren().clear();
             buttonsVisible = false;
-            //toggleButton.setText("Hiển thị Nút Con");
         } else {
 
             Button button1 = createImageButton("EditVocab/add.png", "");
@@ -268,7 +238,6 @@ public class HelloController extends DictionaryManagement {
 
             buttonContainer.getChildren().addAll(button1, button2, button3);
             buttonsVisible = true;
-            //toggleButton.setText("Ẩn Nút Con");
         }
     }
 
@@ -289,8 +258,6 @@ public class HelloController extends DictionaryManagement {
     }
 
     //--------------------------------Tạo edit thêm từ----------------------------------
-    //@FXML
-    //Button addVocab = new Button();
 
     @FXML
     private void setAddVocab() {
@@ -365,9 +332,6 @@ public class HelloController extends DictionaryManagement {
 
     //--------------------------------Tạo edit xóa----------------------------------
 
-//    @FXML
-//    public Button deleteVocab = new Button();
-
     @FXML
     private void setDeleteVocab() {
         // Create the custom dialog
@@ -410,10 +374,14 @@ public class HelloController extends DictionaryManagement {
                     System.out.println("Entered delete word: " + name);
                     try {
                         if (!Objects.equals(dictionarySearcher(name, sqLiteConnection3), "Đần")) {
+                            listVocab.getItems().clear();
+                            view.getEngine().loadContent("");
+                            makeSoundButton.setVisible(false);
                             deleteWord(name);
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setHeaderText("Delete word successfully");
                             alert.show();
+
                         }
                         else {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -434,8 +402,6 @@ public class HelloController extends DictionaryManagement {
     }
 
     //-----------------------------sửa từ ---------------------------
-//    @FXML
-//    Button editVocab = new Button();
 
     @FXML
     private void setEditVocabVocab() {
@@ -484,7 +450,11 @@ public class HelloController extends DictionaryManagement {
                     try {
                         String search = dictionarySearcher(pair.getKey(), sqLiteConnection4);
                         if (!Objects.equals(search, "Đần")) {
-                            editWord(pair.getKey(), pair.getValue());
+                            Word word = new Word(pair.getKey(), pair.getValue());
+                            listVocab.getItems().clear();
+                            view.getEngine().loadContent("");
+                            makeSoundButton.setVisible(false);
+                            editWord(word);
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setHeaderText("Edit word successfully");
                             alert.show();
@@ -512,16 +482,6 @@ public class HelloController extends DictionaryManagement {
 
     @FXML
     public void makeSound() {
-//        TextToSpeech textToSpeech = new TextToSpeech();
-//        try {
-//            textToSpeech.Spelling("Hello Guy");
-//        } catch (EngineException e) {
-//            throw new RuntimeException(e);
-//        } catch (AudioException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
         String word = listVocab.getSelectionModel().getSelectedItem();
         if (!Objects.equals(word, "")) {
             DictionaryManagement dictionaryManagement = new DictionaryManagement();
@@ -554,9 +514,6 @@ public class HelloController extends DictionaryManagement {
     @FXML
     public SplitMenuButton splitMenuButtonLeft;
     @FXML
-    private java.awt.MenuBar menuBar;
-    @FXML
-    public java.awt.Menu menu ;
     public RadioMenuItem englishLeft;
     public RadioMenuItem vietnameseLeft;
     public RadioMenuItem japaneseLeft;
@@ -566,9 +523,6 @@ public class HelloController extends DictionaryManagement {
     @FXML
     public SplitMenuButton splitMenuButtonRight;
 
-    public java.awt.MenuBar menuBarRight;
-    @FXML
-    public java.awt.Menu menuRight ;
     public RadioMenuItem englishRight;
     public RadioMenuItem vietnameseRight;
     public RadioMenuItem japaneseRight;
@@ -584,7 +538,6 @@ public class HelloController extends DictionaryManagement {
         japaneseLeft.setSelected(false);
         koreanLeft.setSelected(false);
         chineseLeft.setSelected(false);
-//        menuLeft.setLabel("English");
         splitMenuButtonLeft.setText("English");
     }
     @FXML
@@ -594,7 +547,6 @@ public class HelloController extends DictionaryManagement {
         japaneseLeft.setSelected(false);
         koreanLeft.setSelected(false);
         chineseLeft.setSelected(false);
-//        menuLeft.setLabel("English");
         splitMenuButtonLeft.setText("Vietnamese");
 
     }
@@ -605,7 +557,6 @@ public class HelloController extends DictionaryManagement {
         japaneseLeft.setSelected(true);
         koreanLeft.setSelected(false);
         chineseLeft.setSelected(false);
-//        menuLeft.setLabel("English");
         splitMenuButtonLeft.setText("Japanese");
 
     }
@@ -616,7 +567,6 @@ public class HelloController extends DictionaryManagement {
         japaneseLeft.setSelected(false);
         koreanLeft.setSelected(true);
         chineseLeft.setSelected(false);
-//        menuLeft.setLabel("English");
         splitMenuButtonLeft.setText("Korean");
 
     }
@@ -627,7 +577,6 @@ public class HelloController extends DictionaryManagement {
         japaneseLeft.setSelected(false);
         koreanLeft.setSelected(false);
         chineseLeft.setSelected(true);
-//        menuLeft.setLabel("English");
         splitMenuButtonLeft.setText("Chinese");
     }
 

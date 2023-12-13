@@ -86,7 +86,7 @@ public class DictionaryCommandline {
                     break;
                 default:
                     System.out.println("Action not supported.");
-            };
+            }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -98,10 +98,6 @@ public class DictionaryCommandline {
   public static void main(String[] args) {
       DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
       dictionaryCommandline.dictionaryAdvance();
-      //dictionaryCommandline.dictionaryManagement.insertFromFile("src/main/java/CMDDictionary/dictionaries.txt");
-      //dictionaryCommandline.dictionaryManagement.insertFromCommandline();
-      //dictionaryCommandline.dictionaryManagement.dictionaryExportToFile();
-
   }
  }
 

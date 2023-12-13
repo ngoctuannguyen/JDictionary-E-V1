@@ -14,10 +14,6 @@ public class SQLiteConnection {
 
     public static String question = "QUESTION";
 
-//    public SQLiteConnection() {
-//        sqLiteConnection = new SQLiteConnection();
-//    }
-
     public SQLiteConnection getSqLiteConnection() {
         if (sqLiteConnection != null) {
             return sqLiteConnection = new SQLiteConnection();
@@ -50,14 +46,6 @@ public class SQLiteConnection {
                 preparedStatement = connection.prepareStatement(searchQuery);
                 resultSet = preparedStatement.executeQuery();
             }
-
-//            if (resultSet != null) {
-//                while (resultSet.next() == true) {
-//                    String id = resultSet.getString(3);
-//                    System.out.println(id);
-//                }
-//            }
-
             return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,18 +54,6 @@ public class SQLiteConnection {
         return resultSet;
     }
 
-    public static void main(String[] args) throws SQLException {
-        SQLiteConnection sqLiteConnection1 = new SQLiteConnection();
-        sqLiteConnection1.setConnection(dbName);
-        String searchQuery = "SELECT * FROM " + dataTable + " WHERE word LIKE " + "'neural'";
-        System.out.println(sqLiteConnection1.query(searchQuery));
-        String a = "A";
-        try (Statement statement = connection.createStatement()) {
-            String insertQuery = "INSERT INTO " + question + " (DESCRIPTION,ANSWER) VALUES ('What is your name?','Your mom')";
-            statement.executeUpdate(insertQuery);
-        } catch (SQLException E) {
-            E.printStackTrace();
-        }
-    }
+    public static void main(String[] args) throws SQLException {}
 
 }

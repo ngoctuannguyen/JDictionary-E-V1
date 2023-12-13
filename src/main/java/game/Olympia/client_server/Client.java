@@ -3,7 +3,6 @@ package game.Olympia.client_server;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Client {

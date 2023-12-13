@@ -20,7 +20,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="countdownLabel1" alignment="CENTER" layoutX="697.0" layoutY="247.0" prefHeight="108.0" prefWidth="315.0" text="60" textFill="#fff9f9">
+      <Label fx:id="countdownLabel1" alignment="CENTER" layoutX="697.0" layoutY="247.0" prefHeight="108.0" prefWidth="315.0" text="20" textFill="#fff9f9">
          <font>
             <Font name="Rockwell Condensed" size="71.0" />
          </font>

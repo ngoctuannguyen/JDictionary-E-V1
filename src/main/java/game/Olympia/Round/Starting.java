@@ -3,7 +3,6 @@ package game.Olympia.Round;
 import game.Olympia.Countdown.CountdownTimer;
 import game.Olympia.UserInfo.Player;
 
-import java.util.Scanner;
 
 public class Starting extends Player {
 

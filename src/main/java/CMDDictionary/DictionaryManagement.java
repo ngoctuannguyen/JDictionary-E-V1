@@ -7,11 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class DictionaryManagement {
-    private   Dictionary dictionary;
+    private final Dictionary dictionary;
     public Trie trie= new Trie();
     DictionaryManagement() {
         dictionary = new Dictionary();
@@ -27,7 +26,6 @@ public class DictionaryManagement {
             String wordFound = scanner.nextLine();
             System.out.print("Enter Vietnamese meaning: ");
             String wordExplain = scanner.nextLine();
-            // Thêm từ mới vào từ điển
             Word word = new Word(wordFound, wordExplain);
             System.out.println(word.getWordFound());
             dictionary.words.add(word);

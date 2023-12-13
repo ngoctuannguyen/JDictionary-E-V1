@@ -1,30 +1,24 @@
 package dictionary;
 
-import com.almasb.fxgl.multiplayer.PropertyRemoveReplicationEvent;
-import module.SQLite.SQLiteConnection;
 
+import module.SQLite.SQLiteConnection;
+import module.TextToSpeech;
+import searchingAlgorithm.Trie;
+import utils.Utils;
+import javax.speech.AudioException;
+import javax.speech.EngineException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
-import java.util.Scanner;
-
-import searchingAlgorithm.Trie;
-import utils.Utils;
-import module.TextToSpeech;
-
-import javax.speech.AudioException;
-import javax.speech.EngineException;
 
 public class DictionaryManagement extends SQLiteConnection {
 
-    //public static SQLiteConnection sqLiteConnection2 = new SQLiteConnection();
     public Trie trie = new Trie();
     public List<String> wordList = new ArrayList<>();
-
+    public Utils utils = new Utils();
     public DictionaryManagement() {
 
     }
@@ -57,10 +51,6 @@ public class DictionaryManagement extends SQLiteConnection {
         }
     }
 
-    /*TODO:- Work more on adjusting id after delete since id is not auto_increment (not that important?).
-           - Check if the word is in the database or not.
-           - Standardize String word.
-         */
     public void deleteWord(String word) {
         SQLiteConnection sqLiteConnection1 = new SQLiteConnection();
         sqLiteConnection1.setConnection(dbName);
@@ -77,15 +67,6 @@ public class DictionaryManagement extends SQLiteConnection {
 
     }
 
-    private String generateHtmlForWord(Word word) {
-        String wordName = word.getWordFound();
-
-        //<h1>zonal</h1><h3><i>//</i></h3><ul><li>(thuộc) đới, theo đới</li></ul>
-        String html = "<h1>" + word.getWordFound() + "</h1>" +
-                "<h3><i>//</i></h3><ul><li>" + word.getWordExplaination() + "</li></ul>";
-        return html;
-    }
-
     public void insertWord(Word word) throws SQLException {
         SQLiteConnection sqLiteConnection1 = new SQLiteConnection();
         sqLiteConnection1.setConnection(dbName);
@@ -98,7 +79,7 @@ public class DictionaryManagement extends SQLiteConnection {
             preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setInt(1, resultSet.getInt("id")+ 1);
             preparedStatement.setString(2, Word.wordFound);
-            preparedStatement.setString(3, generateHtmlForWord(word));
+            preparedStatement.setString(3, utils.generateHtmlForWord(word));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -108,13 +89,13 @@ public class DictionaryManagement extends SQLiteConnection {
 
     }
 
-    public void editWord(String word, String wordExplain) throws SQLException {
+    public void editWord(Word word) throws SQLException {
         String editQuery = "UPDATE " + dataTable + " SET html = ?" + " WHERE word = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(editQuery);
-            preparedStatement.setString(1, wordExplain);
-            preparedStatement.setString(2, word);
+            preparedStatement.setString(1, utils.generateHtmlForWord(word));
+            preparedStatement.setString(2, word.getWordFound());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,11 +111,9 @@ public class DictionaryManagement extends SQLiteConnection {
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 String word = resultSet.getString("WORD");
-                //System.out.println(word);
                 wordList.add(word);
                 count++;
             }
-            //System.out.print(count);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,34 +134,5 @@ public class DictionaryManagement extends SQLiteConnection {
     }
 
     public static void main(String[] args) throws SQLException {
-        DictionaryManagement dictionaryManagement = new DictionaryManagement();
-        SQLiteConnection sqLiteConnection3 = new SQLiteConnection();
-        sqLiteConnection3.setConnection(dbName);
-        Utils utils = new Utils();
-        //Scanner scanner = new Scanner(System.in);
-        //String data = scanner.nextLine();
-        dictionaryManagement.getAllWord(dbName);
-        dictionaryManagement.setTrie();
-        System.out.println(dictionaryManagement.dictionarySearcher("width",sqLiteConnection3));
-        //Trie trie1 = dictionaryManagement.getTrie();
-       // List<String> ans = trie1.autoComplete("a");
-        //System.out.println(dictionaryManagement.dictionarySearcher("a la mode",sqLiteConnection3));
-        connection.close();
-        /*
-        Scanner scanner = new Scanner(System.in);
-        String data = scanner.nextLine();
-
-        //System.out.println(dictionaryManagement.dictionarySearcher(data, sqLiteConnection3));
-        //dictionaryManagement.dictionarySpelling(data);
-        //data = dictionaryManagement.dictionarySearcher(data, sqLiteConnection3);
-        //System.out.println(data);
-        //System.out.println(utils.getTextFromHTML(data));
-        dictionaryManagement.dictionarySpelling(data);
-        data = dictionaryManagement.dictionarySearcher(data, sqLiteConnection3);
-        System.out.println(data);
-         */
-        /* System.out.println(utils.getTextFromHTML(data)); */
-        Word news = new  Word("Balon d'or","Bóng vàng");
-
     }
 }
